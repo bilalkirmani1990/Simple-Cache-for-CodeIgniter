@@ -21,7 +21,7 @@
 
 */
 
-class Simple_cache {
+class CI_Simple_cache {
 
 	/**
 	 * @var int containing the number of seconds that a cached item will be considered current
@@ -42,7 +42,7 @@ class Simple_cache {
 		// serialises the contents so that they can be stored in plain text
 		$value = serialize($value);
 
-		file_put_contents(BASEPATH.'cache/'.$key.'.cache', $value);
+		file_put_contents(APPPATH.'cache/'.$key.'.cache', $value);
 
 	}
 
@@ -57,7 +57,7 @@ class Simple_cache {
 		$key = sha1($key);
 		// checks if the cached item exists and that it has not expired.
 
-        $file_expires = file_exists(BASEPATH.'cache/'.$key.'.cache') ? filectime(BASEPATH.'cache/'.$key.'.cache')+$this->expire_after) : (time() - 10);
+        $file_expires = file_exists(APPPATH.'cache/'.$key.'.cache') ? filectime(APPPATH.'cache/'.$key.'.cache')+($this->expire_after) : (time() - 10);
 
 		if ($file_expires >= time())
 		{
@@ -76,7 +76,7 @@ class Simple_cache {
 	function get_item($key)
 	{
 		$key = sha1($key);
-		$item = file_get_contents(BASEPATH.'cache/'.$key.'.cache');
+		$item = file_get_contents(APPPATH.'cache/'.$key.'.cache');
 		$items = unserialize($item);
 
 		return $items;
@@ -89,7 +89,7 @@ class Simple_cache {
 	*/
 	function delete_item($key)
 	{
-		unlink(BASEPATH.'cache/'.sha1($key).'.cache');
+		unlink(APPPATH.'cache/'.sha1($key).'.cache');
 	}
 
 }
